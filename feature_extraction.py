@@ -10,6 +10,9 @@ from datetime import datetime
 import time
 from dateutil.parser import parse as date_parse
 
+# def response(x):
+#     google.search(x)
+
 # Calculates number of months
 def diff_month(d1, d2):
     return (d1.year - d2.year) * 12 + d1.month - d2.month
@@ -39,7 +42,7 @@ def generate_data_set(url):
 	       domain = domain.replace("www.","")
 
     # Requests all the information about the domain
-    whois_response = whois.whois(domain)
+    whois_response = whois.whois(domain) # ------------------------------------------------- edited whois
 
     rank_checker_response = requests.post("https://www.checkpagerank.net/index.php", {
         "name": domain
@@ -354,7 +357,7 @@ def generate_data_set(url):
     #25. DNSRecord
     dns = 1
     try:
-        d = whois.whois(domain)
+        d = whois.whois(domain) #------------------------------------------------ edited whois
     except:
         dns=-1
     if dns == -1:
@@ -424,5 +427,6 @@ def generate_data_set(url):
         print ('Connection problem. Please check your internet connection!')
 
 
+    print ("Sebelum diterapkan fitur seleksi:")
     print (data_set)
     return data_set

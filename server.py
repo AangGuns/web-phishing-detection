@@ -1,5 +1,6 @@
 import os
-import phishing_detection
+import pd_ig
+import pd_vanilla
 from flask import Flask
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -18,9 +19,10 @@ def allowed_file(filename):
 
 @app.route('/result')
 def result():
-    urlname  = request.args['name']
-    result  = phishing_detection.getResult(urlname)
-    return result
+	urlname = request.args['name']
+	result = pd_ig.getResult(urlname)
+	# result = pd_vanilla.getResult(urlname)
+	return result
 
 # @app.route('/upload')
 # def upload():
@@ -58,4 +60,5 @@ def hello():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+	app.run(debug=True)
+    # app.run(host='localhost', port=5000)
