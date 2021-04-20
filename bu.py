@@ -74,6 +74,10 @@ def getResult(url):
     X_new=feature_extraction.generate_data_set(X_input)
     X_new = np.array(X_new).reshape(1,-1)
 
+    # indices = X_train_unique.columns[sel.get_support()]
+    # print(len(indices))
+    # X_new_fil = [i for j, i in enumerate(X_new) if j in indices]
+
     try:
         prediction = clf.predict(X_new)
         # akurasi = clf.score(X_new)

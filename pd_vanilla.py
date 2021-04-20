@@ -1,10 +1,8 @@
 import numpy as np
 import feature_extraction
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier as rfc
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression as lr
-from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
@@ -26,15 +24,13 @@ def getResult(url):
     #Seperating training features, testing features, training labels & testing labels
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 
-    clf = BernoulliNB()
-    # clf = tree.DecisionTreeClassifier()
-    # clf = KNeighborsClassifier()
+    # clf = DecisionTreeClassifier()
+    # clf = BernoulliNB()
+    clf = KNeighborsClassifier()
     clf.fit(X_train, y_train)
-    score = clf.score(X_test, y_test)
-    total = score*100
-    print("|| ====================================================== ||")
-    print("Akurasi Model klasifikasi tanpa seleksi fitur:")
-    print(total)
+    # score = clf.score(X_test, y_test)
+    y_pred = clf.predict(X_test)
+    total = accuracy_score(y_test, y_pred)
 
     X_new = []
 

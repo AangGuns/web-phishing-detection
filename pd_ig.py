@@ -4,11 +4,12 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier as rfc
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression as lr
-from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.feature_selection import VarianceThreshold, mutual_info_classif
 from sklearn.feature_selection import SelectKBest, SelectPercentile
-from sklearn.naive_bayes import BernoulliNB
 from flask import jsonify
 
 
@@ -59,14 +60,13 @@ def getResult(url):
     X_train_mi = sel.transform(X_train_unique)
     X_test_mi = sel.transform(X_test_unique)
 
-
-    clf = BernoulliNB()
+    clf = DecisionTreeClassifier()
+    # clf = BernoulliNB()
+    # clf = KNeighborsClassifier()
     clf.fit(X_train_mi, y_train)
-    score = clf.score(X_test_mi, y_test)
-    total = score*100
-    print("|| ====================================================== ||")
-    print("Akurasi Model klasifikasi dengan seleksi fitur:")
-    print(total)
+    # score = clf.score(X_test_mi, y_test)
+    y_pred = clf.predict(X_test_mi)
+    total = accuracy_score(y_test, y_pred)
 
     X_new = []
 
@@ -81,11 +81,11 @@ def getResult(url):
     try:
         prediction = clf.predict(X_new_fill)
         if prediction == -1:
-            return "Terindikasi sebagai website phishing."
+            return "Terindikasi sebagai website phishing!"
         else:
             print ("Setelah diterapkan fitur seleksi:")
             print (X_new_fill)
             return "Bukan website phishing."
     except:
-        prediction = clf.predict(X_new)
-        return "Terindikasi sebagai website phishing."
+        # prediction = clf.predict(X_new_fill)
+        return "Terindikasi sebagai website phishing!"
